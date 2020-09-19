@@ -1,7 +1,9 @@
 // JavaScript source code
 window.CookieSaveOmoshiroi = function CookieSaveOmoshiroi() {
-    this.alert("‚ ‚è‚ª‚Æ‚¤");
-    document.cookie = "omoshiroi=" + encodeURIComponent('‚Ö‚Á‚½');
+    var count;
+    count++;
+    this.alert("Thank you");
+    document.cookie = "omoshiroi=" + encodeURIComponent(count);
 }
 
 window.onload = function cookieKakunin() {

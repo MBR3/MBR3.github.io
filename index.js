@@ -2,7 +2,7 @@
 var count;
 window.CookieSaveOmoshiroi = function CookieSaveOmoshiroi() {
     var now = new Date();
-    now.setDate(now.getFullYear() + 1);
+    now.setDate(now.getMonth()+3);
     count++;
     this.alert("Thank you");
     document.cookie = 'omoshiroi=' + count + ";expires=" + now.toUTCString();

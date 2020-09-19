@@ -1,6 +1,6 @@
 // JavaScript source code
+var count = 0;
 window.CookieSaveOmoshiroi = function CookieSaveOmoshiroi() {
-    var count = 0;
     count++;
     this.alert("Thank you");
     document.cookie = 'omoshiroi=' + count;

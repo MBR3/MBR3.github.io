@@ -3,7 +3,7 @@ window.CookieSaveOmoshiroi = function CookieSaveOmoshiroi() {
     var count;
     count++;
     this.alert("Thank you");
-    document.cookie = "omoshiroi=" + encodeURIComponent(count);
+    document.cookie = 'omoshiroi=' + count;
 }
 
 window.onload = function cookieKakunin() {
@@ -12,5 +12,7 @@ window.onload = function cookieKakunin() {
     }
     else {
         alert('yes cookie');
+        this.alert(document.cookie)
+        this.alert("ÅJÉîÉBÅJÉGÅJ");
     }
 }

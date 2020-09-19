@@ -5,8 +5,8 @@ window.CookieSaveOmoshiroi = function CookieSaveOmoshiroi() {
     now.setDate(now.getFullYear() + 1);
     count++;
     this.alert("Thank you");
-    document.cookie = 'omoshiroi=' + count; expires = now.toUTCString();
-    console.log(now.toUTCString());
+    document.cookie = 'omoshiroi=' + count + ";expires=" + now.toUTCString();
+    console.log(now);
 }
 
 window.onload = function cookieKakunin() {

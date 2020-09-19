@@ -1,9 +1,11 @@
 // JavaScript source code
 var count;
 window.CookieSaveOmoshiroi = function CookieSaveOmoshiroi() {
+    var now = new Date();
+    now.getMonth() + 12;
     count++;
     this.alert("Thank you");
-    document.cookie = 'omoshiroi=' + count;
+    document.cookie = 'omoshiroi=' + count; expires = now.toUTCString();
 }
 
 window.onload = function cookieKakunin() {
@@ -27,5 +29,6 @@ window.onload = function cookieKakunin() {
         }
         this.alert(cookieValue);
         count = cookieValue;
+        
     }
 }

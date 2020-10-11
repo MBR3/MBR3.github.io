@@ -31,7 +31,7 @@ document.getElementById("virus").onclick = function(){
         x = Math.floor(Math.random() * screen.availWidth) + 1
         y = Math.floor(Math.random() * screen.availHeight) + 1
         console.log(x,y)
-        mywindow.moveTo(x,y)
+        mywindow.moveBy(x,y)
         document.getElementById("download").click();
         sleep(250);
     }

@@ -14,7 +14,3 @@ function fra_audio() {
 function ger_audio() {
     audio("ger")
 }
-
-function jpn_audio() {
-    audio("jpn")
-}

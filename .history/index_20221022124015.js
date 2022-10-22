@@ -4,17 +4,5 @@ function audio(language) {
 }
 
 function eng_audio() {
-    audio("eng")
-}
-
-function fra_audio() {
-    audio("fra")
-}
-
-function ger_audio() {
-    audio("ger")
-}
-
-function jpn_audio() {
-    audio("jpn")
+    audio(eng)
 }

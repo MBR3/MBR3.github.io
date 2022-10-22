@@ -10,11 +10,3 @@ function eng_audio() {
 function fra_audio() {
     audio("fra")
 }
-
-function ger_audio() {
-    audio("ger")
-}
-
-function jpn_audio() {
-    audio("jpn")
-}

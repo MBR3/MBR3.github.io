@@ -7,14 +7,6 @@ function eng_audio() {
     audio("eng")
 }
 
-function fra_audio() {
+function eng_audio() {
     audio("fra")
-}
-
-function ger_audio() {
-    audio("ger")
-}
-
-function jpn_audio() {
-    audio("jpn")
 }

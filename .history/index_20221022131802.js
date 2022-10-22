@@ -1,7 +1,7 @@
 
 function audio(language, word) {
-    document.getElementById(language + '_btn_' + word +'_audio').currentTime = 0; //連続クリックに対応
-    document.getElementById(language + '_btn_' + word +'_audio').play(); //クリックしたら音を再生
+    document.getElementById(language + '_btn_ + '10' +__audio').currentTime = 0; //連続クリックに対応
+    document.getElementById(language + '_btn_' + '10' +_audio').play(); //クリックしたら音を再生
 }
 
 function eng_10_audio() {
@@ -27,21 +27,21 @@ function all_10_audio() {
 
 
 function eng_dep_audio() {
-    audio("eng", "dep")
+    audio("eng")
 }
 
 function fra_dep_audio() {
-    audio("fra", "dep")
+    audio("fra")
 }
 
 function ger_dep_audio() {
-    audio("ger", "dep")
+    audio("ger")
 }
 
 function jpn_dep_audio() {
-    audio("jpn", "dep")
+    audio("jpn")
 }
 
 function all_dep_audio() {
-    audio("all", "dep")
+    audio("all")
 }

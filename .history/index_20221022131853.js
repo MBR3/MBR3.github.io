@@ -27,21 +27,21 @@ function all_10_audio() {
 
 
 function eng_dep_audio() {
-    audio("eng", "dep")
+    audio("eng")
 }
 
 function fra_dep_audio() {
-    audio("fra", "dep")
+    audio("fra")
 }
 
 function ger_dep_audio() {
-    audio("ger", "dep")
+    audio("ger")
 }
 
 function jpn_dep_audio() {
-    audio("jpn", "dep")
+    audio("jpn")
 }
 
 function all_dep_audio() {
-    audio("all", "dep")
+    audio("all")
 }

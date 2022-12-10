@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+    <title>復習スケジュール管理</title>
+    <link rel="stylesheet" href="review.css">
+</head>
+<!-- HTMLの<form>要素を使って入力フォームを作成 -->
+<form>
+    <label>復習する内容: <input type="text" id="subject"></label><br>
+    <input type="submit" value="作成">
+    </form>
+    <br>
+    <!-- 復習スケジュールを表示するための<table>要素 -->
+    <table>
+    <thead>
+        <tr>
+        <th>復習日</th>
+        <th>復習内容</th>
+        </tr>
+    </thead>
+    <tbody id="schedule"></tbody>
+    </table>
+    
+
+<script src="review.js"></script>

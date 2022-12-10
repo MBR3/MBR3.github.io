@@ -1,0 +1,85 @@
+<!-- 学習プラン作成フォームを作成する -->
+<style>
+    table {
+        width: 550px;
+        border-collapse: collapse;
+        text-align: center;
+      }
+      th {
+        border: 1px solid black;
+      }
+      td {
+        width: 70px;
+        border: 1px solid eff5fc;
+      }
+      thead th {
+        height: 35px;
+        background-color: 4e9cd8;
+        color: eff5fc;
+      }
+      tbody td {
+        height: 50px;
+      }
+      tbody tr:nth-child(2n) {
+        background-color: d0e4f5;
+      }
+</style>
+<form>
+    <label>学習すること:</label>
+    <input type="text" id="skill" list="skill_list">
+    <datalist id="skill_list">
+      <option value="数学・算数-">数学・算数-</option>
+      <option value="理科-">理科-</option>
+      <option value="社会-">社会-</option>
+      <option value="国語-">国語-</option>
+      <option value="英語-">英語-</option>
+    </datalist>
+    <label>学習は何日から何日間？:</label>
+    <input type="date" id="start_date">
+    <input type="number" id="period">
+    <input type="button" value="作成" onclick="createPlan()">
+  </form>
+  
+  <!-- 学習プランを表示するためのテーブルを作成する -->
+  <table id="plan" border="1">
+    <tr>
+      <th>日付</th>
+      <th>学習内容</th>
+    </tr>
+  </table>
+  
+  <script>
+    // 学習プランを作成する関数
+    function createPlan() {
+      // 入力された情報を取得する
+      var skill = document.getElementById("skill").value;
+      var period = document.getElementById("period").value;
+      var now = new Date();
+  
+      // 学習プランを自動で立てる
+      var plan = [];
+      for (var i = 0; i < period; i++) {
+        // その日の日付を取得する
+        var date = document.getElementById("start_date").valueAsDate;
+        date.setDate(date.getDate() + i);
+        date = date.getMonth() + 1 + "月" + date.getDate() + "日"
+  
+        // 学習プランを作成する
+        var planItem = {
+          date: date,
+          content: skill,
+        };
+        plan.push(planItem);
+      }
+  
+      // 学習プランを表にして表示する
+      var planTable = document.getElementById("plan");
+      plan.forEach(function (item) {
+        var row = planTable.insertRow(-1);
+        var dateCell = row.insertCell(0);
+        var contentCell = row.insertCell(1);
+        dateCell.innerHTML = item["date"]
+        contentCell.innerHTML = item["content"]
+      }
+    )}
+    </script>

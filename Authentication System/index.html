@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>入館情報管理システム</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <style>
+            #entry-table {
+                border-collapse: collapse;
+              }
+          
+              #entry-table td,
+              #entry-table th {
+                border: 1px solid #dee2e6;
+                text-align: center;
+                padding: 0.5rem;
+              }
+        </style>
+    </head>
+　<div class="container mt-4">
+    <h2>入館情報入力</h2>
+    <form>
+        <div class="form-group">
+          <label for="name">名前:</label>
+          <input type="text" class="form-control" id="name">
+        </div>
+        <div class="form-group">
+          <label for="address">住所:</label>
+          <input type="text" class="form-control" id="address">
+        </div>
+        <div class="form-group"> 
+            <label for="email">メールアドレス:</label>
+            <input type="email" class="form-control" id="email"> <!--type="email"だが、buttonのtypeがsubmitでないためemailのチェック機能はない。submitにするとテーブルが保存されない。-->
+        </div>
+        <div class="form-group">
+          <label for="exit-schedule">退館予定時刻:</label>
+          <input type="time" class="form-control" id="exit-schedule">
+        </div>
+        <div class="form-group">
+          <label for="baggage-check">手荷物検査結果:</label>
+          <input type="text" class="form-control" id="baggage-check">
+        </div>
+        <div class="form-group">
+            <label for="facility">入館施設名：</label>
+            <input list="facility-List" id="facility" name="facility" class="form-control">
+            <datalist id="facility-List">
+                <option value="学校">
+                <option value="図書館">
+                <option value="植物園">
+                <option value="マラソンコース">
+                <option value="研究施設">
+                <option value="スタジアム">
+                <option value="屋内スポーツセンター">
+                <option value="テニスコート">
+                <option value="ゴルフコース">
+                <option value="ホテル">
+                <option value="スパ">
+                <option value="レストラン">
+                <option value="商業施設">
+                <option value="住宅">
+                <option value="オフィススペース">
+                <option value="美術館">
+                <option value="博物館">
+                <option value="劇場">
+                <option value="アリーナ">
+                <option value="コンベンションセンター">
+                <option value="テーマパーク">
+                <option value="ショッピングモール">
+                <option value="病院">
+                <option value="福祉施設">
+                <option value="ゲームセンター">
+                <option value="動物園">
+                <option value="水族館">
+                <option value="レジャーセンター">
+                <option value="ビーチリゾート">
+                <option value="カジノ">
+                <option value="イベント会場">
+                <option value="フィットネスクラブ">
+                <option value="パブリックアート展示スペース">
+                <option value="コンサートホール">
+                <option value="ショールーム">
+                <option value="スタートアップ支援施設">
+              </datalist>
+            
+        </div>
+        <div class="form-group">
+          <label for="purpose">入館目的(任意):</label>
+          <input type="text" class="form-control" id="purpose">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="generateNumber()">番号発行</button>
+      </form>
+    </div>
+  
+    <div class="container mt-4">
+        <h2>入館情報一覧</h2>
+        <table id="entry-table" class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th>番号</th>
+              <th>名前</th>
+              <th>住所</th>
+              <th>メールアドレス</th>
+              <th>入館日</th>
+              <th>入館時刻</th>
+              <th>退館予定時刻</th>
+              <th>手荷物検査結果</th>
+              <th>入館施設名</th>
+              <th>入館目的(任意)</th>
+            </tr>
+          </thead>
+          <tbody id="entry-table">
+          </tbody>
+        </table>
+      </div>
+  
+  <script>
+    function generateNumber() {
+      var name = document.getElementById("name").value;
+      var address = document.getElementById("address").value;
+      var exitSchedule = document.getElementById("exit-schedule").value;
+      var baggageCheck = document.getElementById("baggage-check").value;
+      var facility = document.getElementById("facility").value;
+      var purpose = document.getElementById("purpose").value;
+      var email = document.getElementById("email").value;
+      var number = Math.floor(Math.random() * 9000000000) + 1000000000; // 10桁のランダムな整数を生成
+  
+      // 入館日時を取得
+      var entryDate = new Date();
+      var entryDateStr = entryDate.getFullYear() + "/" + (entryDate.getMonth() + 1) + "/" + entryDate.getDate();
+      var minutes = entryDate.getMinutes();
+      if (minutes < 10) {
+      minutes = "0" + minutes;
+      }
+      var entryTimeStr = entryDate.getHours() + ":" + minutes;
+  
+      // テーブルに行を追加
+      var table = document.getElementById("entry-table");
+      var row = table.insertRow();
+      row.insertCell().innerHTML = number;
+      row.insertCell().innerHTML = name;
+      row.insertCell().innerHTML = address;
+      row.insertCell().innerHTML = email;
+      row.insertCell().innerHTML = entryDateStr;
+      row.insertCell().innerHTML = entryTimeStr;
+      row.insertCell().innerHTML = exitSchedule;
+      row.insertCell().innerHTML = baggageCheck;
+      row.insertCell().innerHTML = facility;
+      row.insertCell().innerHTML = purpose;
+
+    }
+  </script>
+</html>

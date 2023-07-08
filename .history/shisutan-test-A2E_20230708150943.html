@@ -16,6 +16,10 @@
     <h1>Dictation Practice</h1>
     <div class="dictation">
       <h2>Listen and Write</h2>
+      <div id="question-container">
+        <p id="question-english"></p>
+        <p id="question-japanese"></p>
+      </div>
       <audio id="audio-player" controls>
         <source id="audio-source" type="audio/mpeg">
         Your browser does not support the audio element.
@@ -73,6 +77,8 @@
       }
 
       function loadQuestion() {
+        $('#question-english').text(dictationData[currentQuestion].english);
+        $('#question-japanese').text(dictationData[currentQuestion].japanese);
         $('#audio-source').attr('src', dictationData[currentQuestion].audio);
         $('#audio-player').trigger('load');
         $('#user-input').val('').focus();

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- headセクションのコード -->
+</head>
+
+<body>
+  <div class="container">
+    <h1>Dictation Practice</h1>
+    <div class="dictation">
+      <h2>Listen and Write</h2>
+      <p>Here is the dictation sentence. Listen carefully and write it down:</p>
+      <p id="dictation-sentence">This is the sentence to be dictated.</p>
+      <audio id="audio-player" controls>
+        <source src="Shisutan-audio/s-001.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+      <textarea id="user-input" class="form-control" placeholder="Write the sentence here"></textarea>
+      <button id="check-button" class="btn btn-primary">Check</button>
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#check-button').on('click', function() {
+        // チェック処理のコード
+      });
+
+      $('#audio-player').on('ended', function() {
+        $('#check-button').prop('disabled', false);
+      });
+
+      $('#check-button').prop('disabled', true);
+
+      $('#audio-player').on('play', function() {
+        $('#check-button').prop('disabled', true);
+      });
+    });
+  </script>
+</body>
+
+</html>

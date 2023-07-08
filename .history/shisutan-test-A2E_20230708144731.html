@@ -2,13 +2,7 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dictation Practice</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-    /* 任意のカスタムスタイルを追加 */
-  </style>
+  <!-- headセクションのコード -->
 </head>
 
 <body>
@@ -27,7 +21,6 @@
       <textarea id="user-input" class="form-control" placeholder="Write the sentence here"></textarea>
       <button id="check-button" class="btn btn-primary">Check</button>
       <div id="result"></div>
-      <button id="next-button" class="btn btn-secondary">Next Question</button>
     </div>
   </div>
 
@@ -44,7 +37,7 @@
         {
           english: "Here comes the second sentence.",
           japanese: "次は2つ目の文です。",
-          audio: "audio/second_sentence.mp3"
+          audio: "Shisutan-audio/s-002.mp3"
         },
         // 他の問題データを追加
       ];
@@ -56,20 +49,10 @@
         $('#question-japanese').text(dictationData[currentQuestion].japanese);
         $('#audio-source').attr('src', dictationData[currentQuestion].audio);
         $('#audio-player').trigger('load');
-        $('#user-input').val('').focus();
-        $('#check-button').prop('disabled', true);
-        $('#result').empty();
       }
 
       $('#check-button').on('click', function() {
-        var dictationSentence = dictationData[currentQuestion].english;
-        var userInput = $('#user-input').val().trim();
-        
-        if (userInput === dictationSentence) {
-          $('#result').text('Correct! Good job!');
-        } else {
-          $('#result').text('Incorrect. Please try again.');
-        }
+        // チェック処理のコード
       });
 
       $('#audio-player').on('ended', function() {
@@ -80,14 +63,6 @@
 
       $('#audio-player').on('play', function() {
         $('#check-button').prop('disabled', true);
-      });
-
-      $('#next-button').on('click', function() {
-        currentQuestion++;
-        if (currentQuestion >= dictationData.length) {
-          currentQuestion = 0;
-        }
-        loadQuestion();
       });
 
       // 最初の問題を読み込む

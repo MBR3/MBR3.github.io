@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dictation Practice</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* 任意のカスタムスタイルを追加 */
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Dictation Practice</h1>
+    <div class="dictation">
+      <h2>Listen and Write</h2>
+      <p>Here is the dictation sentence. Listen carefully and write it down:</p>
+      <p id="dictation-sentence">This is the sentence to be dictated.</p>
+      <textarea id="user-input" class="form-control" placeholder="Write the sentence here"></textarea>
+      <button id="check-button" class="btn btn-primary">Check</button>
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#check-button').on('click', function() {
+        var dictationSentence = $('#dictation-sentence').text().trim();
+        var userInput = $('#user-input').val().trim();
+        
+        if (userInput === dictationSentence) {
+          $('#result').text('Correct! Good job!');
+        } else {
+          $('#result').text('Incorrect. Please try again.');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

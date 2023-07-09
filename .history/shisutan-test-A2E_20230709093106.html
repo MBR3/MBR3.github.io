@@ -45,7 +45,6 @@
         }
         return array;
       }
-      
       function loadQuestion() {
         $('#audio-source').attr('src', "Shisutan-audio/s-" + dictationData[currentQuestion].questionNumber.toString().padStart(3, "0") + ".mp3"); //ファイル名をquestionNumberから作る。001や087のようにする。
         $('#audio-player').trigger('load');

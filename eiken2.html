@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>英作文タイピング練習</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 700px; margin: auto; }
+    h1 { text-align: center; }
+    .jp { font-size: 1.2em; margin-bottom: 10px; color: #555; }
+    input[type="text"], button { font-size: 1.3em; padding: 6px; }
+    input[type="text"] { width: 100%; box-sizing: border-box; margin-top: 10px; }
+    .stats { margin-top: 15px; font-size: 1.2em; }
+    .correct { color: green; }
+    .incorrect { color: red; }
+    .answer-section { margin-top: 15px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>英作文タイピング練習</h1>
+  <div class="jp" id="jpPhrase"></div>
+  <input type="text" id="typingInput" placeholder="ここに英語を入力してください" autocomplete="off" />
+  <button id="checkBtn">判定</button>
+  <div class="stats" id="stats"></div>
+  <div class="answer-section" id="answerSection" style="display:none;"></div>
+  <button id="nextBtn" disabled>次のフレーズ</button>
+
+  <script>
+    const phrases = [
+  {
+    jp: "Vことは多くの人にとって非常に重要である。",
+    en_template: "It is very important for a lot of people to V.",
+    placeholders: {
+      V: [
+        { jp: "勉強する", en: "study" },
+        { jp: "運動する", en: "exercise" },
+        { jp: "コミュニケーションをとる", en: "communicate" },
+        { jp: "環境を守る", en: "protect the environment" },
+        { jp: "新しいことを学ぶ", en: "learn new things" },
+      ],
+    },
+  },
+  {
+    jp: "AはBに良い影響を与える。",
+    en_template: "{A} have a positive effect on {B}.",
+    placeholders: {
+      A: [
+        { jp: "教育", en: "Education" },
+        { jp: "運動", en: "Exercise" },
+        { jp: "読書", en: "Reading" },
+        { jp: "音楽", en: "Music" },
+        { jp: "睡眠", en: "Sleep" },
+      ],
+      B: [
+        { jp: "健康", en: "health" },
+        { jp: "集中力", en: "concentration" },
+        { jp: "生活の質", en: "quality of life" },
+        { jp: "ストレスの軽減", en: "stress relief" },
+        { jp: "人間関係", en: "relationships" },
+      ],
+    },
+  },
+  {
+    jp: "AはBに悪い影響を与える。",
+    en_template: "{A} have a negative effect on {B}.",
+    placeholders: {
+      A: [
+        { jp: "喫煙", en: "Smoking" },
+        { jp: "過剰なスマホ使用", en: "excessive smartphone use" },
+        { jp: "睡眠不足", en: "lack of sleep" },
+        { jp: "偏った食事", en: "unbalanced diet" },
+        { jp: "運動不足", en: "lack of exercise" },
+      ],
+      B: [
+        { jp: "健康", en: "health" },
+        { jp: "集中力", en: "concentration" },
+        { jp: "生活の質", en: "quality of life" },
+        { jp: "精神状態", en: "mental state" },
+        { jp: "仕事の効率", en: "work efficiency" },
+      ],
+    },
+  },
+  {
+    jp: "Aは人々(我々)がVことを可能にする。",
+    en_template: "{A} will enable people (us) to V.",
+    placeholders: {
+      A: [
+        { jp: "インターネット", en: "The internet" },
+        { jp: "テクノロジー", en: "Technology" },
+        { jp: "教育システム", en: "The education system" },
+        { jp: "翻訳アプリ", en: "Translation apps" },
+        { jp: "スマートフォン", en: "Smartphones" },
+      ],
+      V: [
+        { jp: "情報を得る", en: "access information" },
+        { jp: "コミュニケーションをとる", en: "communicate" },
+        { jp: "新しいスキルを学ぶ", en: "learn new skills" },
+        { jp: "仕事を効率化する", en: "work more efficiently" },
+        { jp: "世界中の人と繋がる", en: "connect with people worldwide" },
+      ],
+    },
+  },
+  {
+    jp: "Aは人々がコミュニケーションスキルやクリティカルシンキングやチークワークを学べるようにしてくれる。",
+    en_template: "{A} will enable people to learn a lot of things such as communication skills, critical thinking skills, and teamwork.",
+    placeholders: {
+      A: [
+        { jp: "教育", en: "Education" },
+        { jp: "学校", en: "Schools" },
+        { jp: "オンラインコース", en: "Online courses" },
+        { jp: "ワークショップ", en: "Workshops" },
+        { jp: "インターンシップ", en: "Internships" },
+      ],
+    },
+  },
+  {
+    jp: "AはBに対する人々の関心を高める。",
+    en_template: "{A} will raise people’s awareness of {B}.",
+    placeholders: {
+      A: [
+        { jp: "キャンペーン", en: "Campaigns" },
+        { jp: "教育プログラム", en: "Educational programs" },
+        { jp: "メディア", en: "The media" },
+        { jp: "イベント", en: "Events" },
+        { jp: "SNS", en: "Social media" },
+      ],
+      B: [
+        { jp: "環境問題", en: "environmental issues" },
+        { jp: "健康", en: "health" },
+        { jp: "社会問題", en: "social issues" },
+        { jp: "貧困", en: "poverty" },
+        { jp: "人権", en: "human rights" },
+      ],
+    },
+  },
+  {
+    jp: "このグローバル化した社会において、私たちは多くの異なる文化背景を持つ人々とコミュニケーションを取らなくてはいけない、そのため、私たちはAを通して多くの文化的視点を持つ必要がある。",
+    en_template: "In this increasingly globalized society, we have to communicate with people who have various cultural backgrounds, so we have to learn about a lot of cultural viewpoints through {A}.",
+    placeholders: {
+      A: [
+        { jp: "留学", en: "studying abroad" },
+        { jp: "異文化交流", en: "cross-cultural exchange" },
+        { jp: "旅行", en: "travel" },
+        { jp: "オンラインコミュニティ", en: "online communities" },
+        { jp: "多文化教育", en: "multicultural education" },
+      ],
+    },
+  },
+  {
+    jp: "Aは社会において重要な役割を果たす。",
+    en_template: "{A} will play an important role in society.",
+    placeholders: {
+      A: [
+        { jp: "教育", en: "Education" },
+        { jp: "テクノロジー", en: "Technology" },
+        { jp: "医療", en: "Healthcare" },
+        { jp: "環境保護", en: "Environmental protection" },
+        { jp: "公共交通機関", en: "Public transportation" },
+      ],
+    },
+  },
+  {
+    jp: "AがなければVできない。",
+    en_template: "Without {A}, we could not V.",
+    placeholders: {
+      A: [
+        { jp: "インターネット", en: "the internet" },
+        { jp: "電気", en: "electricity" },
+        { jp: "教育", en: "education" },
+        { jp: "スマートフォン", en: "smartphones" },
+        { jp: "交通手段", en: "transportation" },
+      ],
+      V: [
+        { jp: "働くことが", en: "work" },
+        { jp: "生活", en: "live" },
+        { jp: "勉強", en: "study" },
+        { jp: "コミュニケーションを取ることが", en: "communicate" },
+        { jp: "移動", en: "move around" },
+      ],
+    },
+  },
+  {
+    jp: "AはV多くの機会を我々にくれる。",
+    en_template: "{A} will give us a lot of opportunities to V.",
+    placeholders: {
+      A: [
+        { jp: "留学", en: "Studying abroad" },
+        { jp: "ボランティア活動", en: "Volunteering" },
+        { jp: "インターンシップ", en: "Internships" },
+        { jp: "スポーツ", en: "Sports" },
+        { jp: "交流イベント", en: "Networking events" },
+      ],
+      V: [
+        { jp: "成長する", en: "grow" },
+        { jp: "学ぶ", en: "learn" },
+        { jp: "経験を積む", en: "gain experience" },
+        { jp: "友達を作る", en: "make friends" },
+        { jp: "挑戦する", en: "challenge ourselves" },
+      ],
+    },
+  },
+  {
+    jp: "Aは(Vしなくて良いので)我々の時間と労力を節約してくれる。",
+    en_template: "{A} will save us time and effort. (This is because we don’t have to V.)",
+    placeholders: {
+      A: [
+        { jp: "テクノロジー", en: "Technology" },
+        { jp: "オンラインサービス", en: "online services" },
+        { jp: "自動化システム", en: "automation systems" },
+        { jp: "スマート家電", en: "smart home appliances" },
+        { jp: "配達サービス", en: "delivery services" },
+      ],
+      V: [
+        { jp: "外出", en: "go out" },
+        { jp: "手作業を", en: "do manual work" },
+        { jp: "待つことを", en: "wait" },
+        { jp: "店に行くことを", en: "go to stores" },
+        { jp: "電話をかけることを", en: "make phone calls" },
+      ],
+    },
+  },
+  {
+    jp: "その時間を我々は読書や家族と過ごす時間、運動など、より有益なことに使える。",
+    en_template: "The time can be used for other beneficial things such as reading books, spending time with family or exercising.",
+    placeholders: {},
+  },
+  {
+    jp: "Aはお金の節約になる。そのお金を我々は本や旅行、スポーツなど、より有益なことに使える。",
+    en_template: "{A} will save our money and we can use the money for other more beneficial things such as books, travels and sports.",
+    placeholders: {
+      A: [
+        { jp: "節約術", en: "Saving methods" },
+        { jp: "割引サービス", en: "discount services" },
+        { jp: "エコ商品", en: "eco-friendly products" },
+        { jp: "公共交通機関", en: "public transportation" },
+        { jp: "クーポン", en: "coupons" },
+      ],
+    },
+  },
+  {
+    jp: "Aは経済を活性化する、市場と消費を刺激するからだ。(それ故、Aは我々の社会に良い影響を与える。)",
+    en_template: "{A} will boost the economy because it will stimulate the markets and consumption. (Therefore, {A} has a positive effect on our society.)",
+    placeholders: {
+      A: [
+        { jp: "新技術", en: "New technologies" },
+        { jp: "観光業", en: "Tourism" },
+        { jp: "イベント", en: "Events" },
+        { jp: "消費活動", en: "Consumer activities" },
+        { jp: "起業家精神", en: "Entrepreneurship" },
+      ],
+    },
+  },
+  {
+    jp: "ストレスを軽減する",
+    en_template: "reduce / relieve people’s stress.",
+    placeholders: {},
+  },
+  {
+    jp: "Aは我々のクリティカルシンキング能力を高める。グローバル社会に住んでいる我々は様々な文化背景を持つ人々コミュニケーションをとるために多くの視点を持たなくてはいけない。",
+    en_template: "{A} can develop our critical thinking skills. As we live in a globalized society, we have to have a lot of viewpoints to communicate with people who have various cultural backgrounds.",
+    placeholders: {
+      A: [
+        { jp: "教育", en: "Education" },
+        { jp: "海外経験", en: "overseas experience" },
+        { jp: "異文化交流", en: "cross-cultural exchange" },
+        { jp: "読書", en: "Reading" },
+        { jp: "ディスカッション", en: "discussion" },
+      ],
+    },
+  },
+  {
+    jp: "Aは人々の視点と文化的視野を広めてくれる。",
+    en_template: "{A} can broaden people's perspectives and cultural horizons.",
+    placeholders: {
+      A: [
+        { jp: "海外旅行", en: "Travel abroad" },
+        { jp: "異文化体験", en: "cross-cultural experiences" },
+        { jp: "国際交流", en: "international exchange" },
+        { jp: "留学", en: "studying abroad" },
+        { jp: "多文化教育", en: "multicultural education" },
+      ],
+    },
+  },
+  {
+    jp: "Aは地球温暖化を引き起こす、大量の化石燃料（電気）を使うからだ。そのため私たちは太陽エネルギー、水力、風力などの再生可能エネルギーの開発をすすめるべきである。",
+    en_template: "{A} will cause global warming because it uses a lot of fossil fuel (electricity). Therefore, we have to develop renewable energy like solar power, water power, and wind power.",
+    placeholders: {
+      A: [
+        { jp: "化石燃料の使用", en: "The use of fossil fuels" },
+        { jp: "大量の電力消費", en: "High electricity consumption" },
+        { jp: "工場の排出", en: "Factory emissions" },
+        { jp: "自動車の排ガス", en: "Car exhaust" },
+        { jp: "石炭火力発電", en: "Coal-fired power generation" },
+      ],
+    },
+  },
+  {
+    jp: "小さな、個々人の努力がこの問題の解決につながる。",
+    en_template: "Small and individual efforts will help solve this problem.",
+    placeholders: {},
+  },
+  {
+    jp: "地球温暖化の解決には個々人の小さな努力が必要とされる。例えば、使わないときは電気を消すべきです。",
+    en_template: "Small and individual efforts will help solve global warming. For example, we should turn off lights when not in use.",
+    placeholders: {},
+  },
+  {
+    jp: "この問題は容易に解決できるものではないが、私たちは早急にこの問題に対して手を打たなくてはいけない。",
+    en_template: "This problem will not be solved easily, but we should take some countermeasures against it as soon as possible.",
+    placeholders: {},
+  },
+  {
+    jp: "(政府/学校)は人々にVように推奨するべきだ。",
+    en_template: "(The government / schools) should encourage people to V.",
+    placeholders: {
+      V: [
+        { jp: "リサイクルする", en: "recycle" },
+        { jp: "公共交通機関を使う", en: "use public transportation" },
+        { jp: "節電する", en: "save electricity" },
+        { jp: "健康的な生活を送る", en: "lead a healthy lifestyle" },
+        { jp: "ボランティアに参加する", en: "participate in volunteering" },
+      ],
+    },
+  },
+  {
+    jp: "Ａはコストがかかり過ぎる、政府は税金をインフラ開発や災害対策、少子化問題などに優先して使うべきだ。",
+    en_template: "{A} cost(s) too much. The government should spend money on other priorities such as infrastructure development, preparations for natural disasters, and the declining birthrate.",
+    placeholders: {
+      A: [
+        { jp: "新しい技術", en: "New technology" },
+        { jp: "大型プロジェクト", en: "large-scale projects" },
+        { jp: "無駄な支出", en: "wasteful spending" },
+        { jp: "高額な設備投資", en: "expensive equipment investment" },
+        { jp: "過剰な補助金", en: "excessive subsidies" },
+      ],
+    },
+  },
+  {
+    jp: "適切な程度であれば",
+    en_template: "As long as it is done in moderation.",
+    placeholders: {},
+  },
+];
+
+
+    // Levenshtein距離計算
+    function levenshtein(a, b) {
+      const dp = Array(a.length + 1).fill(null).map(() => Array(b.length + 1).fill(0));
+      for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+      for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+      for (let i = 1; i <= a.length; i++) {
+        for (let j = 1; j <= b.length; j++) {
+          if (a[i-1] === b[j-1]) dp[i][j] = dp[i-1][j-1];
+          else dp[i][j] = Math.min(dp[i-1][j] + 1, dp[i][j-1] + 1, dp[i-1][j-1] + 1);
+        }
+      }
+      return dp[a.length][b.length];
+    }
+
+    let currentAnswer = '';
+    let step = 1;
+
+    const jpDiv = document.getElementById('jpPhrase');
+    const input = document.getElementById('typingInput');
+    const checkBtn = document.getElementById('checkBtn');
+    const statsDiv = document.getElementById('stats');
+    const answerSection = document.getElementById('answerSection');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generateAnswer() {
+    const phrase = pickRandom(phrases);
+
+    const chosenWords = {};
+    if (phrase.placeholders) {
+        for (const key in phrase.placeholders) {
+        chosenWords[key] = pickRandom(phrase.placeholders[key]);
+        }
+    }
+
+    let jpText = phrase.jp;
+    for (const key in chosenWords) {
+        const regex = new RegExp(key, 'g');
+        jpText = jpText.replace(regex, chosenWords[key].jp);
+    }
+    jpDiv.textContent = jpText;
+
+    let enText = phrase.en_template;
+    for (const key in chosenWords) {
+        enText = enText.replace(new RegExp(`\\{${key}\\}`, 'g'), chosenWords[key].en);
+    }
+
+    return enText;
+    }
+
+
+    function renderNew() {
+    input.value = '';
+    statsDiv.textContent = '';
+    answerSection.style.display = 'none';
+    nextBtn.disabled = false;  // ← 最初から次へボタンを有効に
+    checkBtn.disabled = false;
+    step = 1;
+    input.placeholder = 'ここに英語を入力してください';
+    currentAnswer = generateAnswer();
+    input.focus();
+    }
+
+    nextBtn.addEventListener('click', renderNew);
+
+    checkBtn.addEventListener('click', () => {
+    const typed = input.value.trim();
+    if (!typed) {
+        statsDiv.textContent = '何か入力してください。';
+        return;
+    }
+    if (step === 1) {
+        const dist = levenshtein(typed.toLowerCase(), currentAnswer.toLowerCase());
+        const acc = (((currentAnswer.length - dist) / currentAnswer.length) * 100).toFixed(1);
+        if (dist === 0) {
+        statsDiv.innerHTML = `<span class="correct">完璧です！再入力してください。</span>`;
+        step = 2;
+        input.value = '';
+        input.placeholder = '正しい英文を再入力してください';
+        // nextBtn.disabled = false;  // ここは無視してOK
+        } else {
+        statsDiv.innerHTML = `<span class="incorrect">${dist}文字間違い。正確度: ${acc}%</span>`;
+        answerSection.style.display = 'block';
+        answerSection.textContent = `正解: ${currentAnswer}`;
+        // 次へボタンを無効にしない（自由に次へ行けるので）
+        }
+    } else {
+        if (typed.toLowerCase() === currentAnswer.toLowerCase()) {
+        statsDiv.innerHTML = `<span class="correct">再入力成功！次へ進みます。</span>`;
+        // nextBtn.disabled = false;  // ここも無視してOK
+        checkBtn.disabled = false;
+        answerSection.style.display = 'none';
+        } else {
+        statsDiv.innerHTML = `<span class="incorrect">もう一度正確に入力してください。</span>`;
+        }
+    }
+    });
+
+
+    nextBtn.addEventListener('click', renderNew);
+
+    // 初期表示
+    renderNew();
+  </script>
+</body>
+</html>
